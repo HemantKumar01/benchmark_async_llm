@@ -109,41 +109,43 @@ The user wants me to execute the subgoal "Open the Chrome app". This directly tr
 ```
 ### Description ###
 Open the Chrome application.""",
-                # Action 2: tap
+                # Action 2: click
                 """assistant: ### Thought ###
 I need to tap on the search bar to activate it. The search bar is at index 5 based on the current UI state.
 
 ### Action ###
 ```json
 {
-  "action": "tap",
+  "action": "click",
   "index": 5
 }
 ```
 ### Description ###
 Tap on the search bar to enable text input.""",
-                # Action 3: input_text
+                # Action 3: type
                 """assistant: ### Thought ###
 Now I need to type "news" into the search bar. The focused element is the search input field.
 
 ### Action ###
 ```json
 {
-  "action": "input_text",
-  "text": "news"
+  "action": "type",
+  "text": "news",
+  "index": 5,
+  "clear": false
 }
 ```
 ### Description ###
 Type "news" into the search bar.""",
-                # Action 4: press_key (enter)
+                # Action 4: system_button (enter)
                 """assistant: ### Thought ###
-To submit the search, I need to press the enter key which has keycode 66 in Android.
+To submit the search, I need to press the enter key. I'll use the system_button action with "enter".
 
 ### Action ###
 ```json
 {
-  "action": "press_key",
-  "keycode": 66
+  "action": "system_button",
+  "button": "enter"
 }
 ```
 ### Description ###
@@ -163,26 +165,25 @@ I need to scroll down to see more results. I'll perform a swipe gesture from bot
 ```
 ### Description ###
 Scroll down to view more search results.""",
-                # Action 6: back
+                # Action 6: system_button (back)
                 """assistant: ### Thought ###
-The user wants to go back to the previous screen. I'll press the back button.
+The user wants to go back to the previous screen. I'll use the system_button action with "back".
 
 ### Action ###
 ```json
 {
-  "action": "back"
+  "action": "system_button",
+  "button": "back"
 }
 ```
 ### Description ###
 Navigate back to the previous screen.""",
             ],
             "app_opener": [
-                # Single response for app opener
-                """assistant: I'll help you open the app. Let me search for it and launch it.
-
-```python
-open_app("Chrome")
-```""",
+                # Single response for app opener - returns JSON with package name
+                """{{
+  "package": "com.android.chrome"
+}}""",
             ],
             "text_manipulator": [
                 # Single response for text manipulation
