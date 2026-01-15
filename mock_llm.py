@@ -86,14 +86,15 @@ The Chrome app has been opened. Now I need to interact with the search bar and p
 2. Type "news" 
 3. Submit the search
 </plan>""",
-                # Finish
-                """<thought>
-The search has been completed successfully. The user can now see news results in Chrome.
-</thought>
-
-<finish>
-Successfully searched for news in Chrome browser.
-</finish>""",
+                # Finish - using request_accomplished format
+                """<add_memory>
+The Chrome app was opened successfully and the search for "news" was completed. The search results are now displayed in the browser.
+</add_memory>
+<plan>
+</plan>
+<request_accomplished success="true">
+Successfully searched for news in Chrome browser. The search results are now visible.
+</request_accomplished>""",
             ],
             "executor": [
                 # Action 1: open_app
