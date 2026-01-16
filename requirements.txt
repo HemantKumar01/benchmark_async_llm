@@ -1,3 +1,4 @@
 matplotlib
+numpy
 asyncio
 droidrun[google,langfuse]
