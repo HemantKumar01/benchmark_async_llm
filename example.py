@@ -10,7 +10,7 @@ async def benchmark():
     # Single LLM (non-reasoning mode) - codeact with multiple steps
     print("=== Testing Non-Reasoning Mode (CodeAct) ===")
     config_no_reasoning = DroidrunConfig(
-        agent=AgentConfig(reasoning=False, max_steps=3)
+        agent=AgentConfig(reasoning=False, max_steps=50)
     )
     mock_llm = MockLLM(agent_type="codeact", wait_time=3.0)
     print(f"Initial call counter: {mock_llm.call_counter}")
@@ -24,7 +24,7 @@ async def benchmark():
 
     # Multiple LLMs (reasoning mode)
     print("=== Testing Reasoning Mode (Manager + Executor) ===")
-    config_reasoning = DroidrunConfig(agent=AgentConfig(reasoning=True, max_steps=4))
+    config_reasoning = DroidrunConfig(agent=AgentConfig(reasoning=True, max_steps=50))
     llms = {
         "manager": MockLLM(agent_type="manager", wait_time=2.0),
         "executor": MockLLM(agent_type="executor", wait_time=2.0),

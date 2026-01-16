@@ -63,6 +63,36 @@ click(15)
 ```python
 complete(success=True, reason="Successfully accessed battery settings")
 ```""",
+                # Step 4: long_press example
+                """assistant: I need to long press on an element to bring up additional options. I'll use long_press to hold on the icon at index 12.
+
+```python
+long_press(12)
+```""",
+                # Step 5: wait example
+                """assistant: I need to wait for the animation to complete before proceeding. I'll wait for 2 seconds.
+
+```python
+wait(2.0)
+```""",
+                # Step 6: system_button with home
+                """assistant: I need to go back to the home screen. I'll press the home button.
+
+```python
+system_button("home")
+```""",
+                # Step 7: open_app
+                """assistant: I need to open the Chrome browser app.
+
+```python
+open_app("Chrome")
+```""",
+                # Step 8: remember example
+                """assistant: I found important information - the battery is at 85%. Let me remember this for later use.
+
+```python
+remember("Battery level is at 85%")
+```""",
             ],
             "manager": [
                 # Planning step 1
@@ -76,24 +106,111 @@ I need to help the user search for news in Chrome. Let me break this down into s
 3. Type "news" in the search bar
 4. Press enter to search
 </plan>""",
-                # Planning step 2
+                # Planning step 2 - after open_app
                 """<thought>
-The Chrome app has been opened. Now I need to interact with the search bar and perform the search.
+Chrome has been opened successfully. Now I need to activate the search bar so we can type the query.
 </thought>
 
 <plan>
 1. Tap on the address/search bar at the top
-2. Type "news" 
-3. Submit the search
+2. Type "news" into the search field
+3. Submit the search by pressing enter
 </plan>""",
-                # Finish - using request_accomplished format
+                # Planning step 3 - after click
+                """<thought>
+The search bar is now focused. I need to type the search query "news" into it.
+</thought>
+
+<plan>
+1. Type "news" in the active search field
+2. Press enter to submit the search
+3. Wait for results to load
+</plan>""",
+                # Planning step 4 - after type
+                """<thought>
+The text has been typed. Now I need to submit the search query by pressing enter.
+</thought>
+
+<plan>
+1. Press the enter key to submit the search
+2. Wait for the search results to load
+3. Verify the results are displayed
+</plan>""",
+                # Planning step 5 - after system_button (enter)
+                """<thought>
+The search has been submitted and results should be loading. Let me wait a moment for the page to fully load.
+</thought>
+
+<plan>
+1. Wait for the page to complete loading
+2. Scroll down to view more results
+3. Check if additional actions are needed
+</plan>""",
+                # Planning step 6 - after wait
+                """<thought>
+The page has loaded. Now I should scroll down to see more search results.
+</thought>
+
+<plan>
+1. Swipe up to scroll down the page
+2. Review the additional search results
+3. Complete the task if sufficient results are visible
+</plan>""",
+                # Planning step 7 - after swipe
+                """<thought>
+Good, I've scrolled through the search results. Let me check if there are any specific items that need interaction or if we need to go back.
+</thought>
+
+<plan>
+1. Review the visible search results
+2. If needed, perform a long press to access additional options
+3. Otherwise, navigate back or complete the task
+</plan>""",
+                # Planning step 8 - after long_press
+                """<thought>
+I've demonstrated the long press action. Now let me navigate back to show the back button functionality.
+</thought>
+
+<plan>
+1. Press the back button to return to the previous screen
+2. Verify we're back at the search results
+</plan>""",
+                # Planning step 9 - after back button
+                """<thought>
+I've successfully demonstrated various actions including opening an app, clicking, typing, submitting, waiting, scrolling, long pressing, and navigating back. Let me try clicking at specific coordinates.
+</thought>
+
+<plan>
+1. Click at specific screen coordinates to demonstrate click_at
+2. Demonstrate click_area for clicking within a bounded region
+3. Show long_press_at for coordinate-based long press
+</plan>""",
+                # Planning step 10 - after click_at
+                """<thought>
+The click_at action has been executed. Now let me demonstrate clicking within a specific area.
+</thought>
+
+<plan>
+1. Use click_area to click the center of a region
+2. Follow up with long_press_at at specific coordinates
+</plan>""",
+                # Planning step 11 - after click_area
+                """<thought>
+The click_area action worked. Let me show the long_press_at functionality.
+</thought>
+
+<plan>
+1. Perform long_press_at at specific coordinates
+2. Complete the demonstration
+</plan>""",
+                # Finish - after all actions
                 """<add_memory>
-The Chrome app was opened successfully and the search for "news" was completed. The search results are now displayed in the browser.
+Successfully demonstrated all available actions: open_app, click, type, system_button (enter and back), swipe, long_press, wait, click_at, click_area, and long_press_at. All actions executed without errors.
 </add_memory>
 <plan>
 </plan>
 <request_accomplished success="true">
-Successfully searched for news in Chrome browser. The search results are now visible.
+Successfully completed the comprehensive action demonstration. All atomic actions have been tested and verified.
 </request_accomplished>""",
             ],
             "executor": [
@@ -179,6 +296,76 @@ The user wants to go back to the previous screen. I'll use the system_button act
 ```
 ### Description ###
 Navigate back to the previous screen.""",
+                # Action 7: long_press
+                """assistant: ### Thought ###
+I need to long press on element at index 8 to bring up a context menu or additional options.
+
+### Action ###
+```json
+{
+  "action": "long_press",
+  "index": 8
+}
+```
+### Description ###
+Long press on the element to show context menu.""",
+                # Action 8: wait
+                """assistant: ### Thought ###
+I need to wait for the page to load completely before proceeding with the next action.
+
+### Action ###
+```json
+{
+  "action": "wait",
+  "duration": 2.0
+}
+```
+### Description ###
+Wait for 2 seconds for the page to load.""",
+                # Action 9: click_at
+                """assistant: ### Thought ###
+I need to click at a specific coordinate (400, 600) on the screen where no indexed element is available.
+
+### Action ###
+```json
+{
+  "action": "click_at",
+  "x": 400,
+  "y": 600
+}
+```
+### Description ###
+Click at the specific screen coordinates.""",
+                # Action 10: click_area
+                """assistant: ### Thought ###
+I need to click in the center of a specific rectangular area defined by bounds (100, 200) to (500, 400).
+
+### Action ###
+```json
+{
+  "action": "click_area",
+  "x1": 100,
+  "y1": 200,
+  "x2": 500,
+  "y2": 400
+}
+```
+### Description ###
+Click the center of the specified area.""",
+                # Action 11: long_press_at
+                """assistant: ### Thought ###
+I need to long press at specific coordinates (300, 800) to trigger a custom action.
+
+### Action ###
+```json
+{
+  "action": "long_press_at",
+  "x": 300,
+  "y": 800
+}
+```
+### Description ###
+Long press at the specified screen coordinates.""",
             ],
             "app_opener": [
                 # Single response for app opener - returns JSON with package name
